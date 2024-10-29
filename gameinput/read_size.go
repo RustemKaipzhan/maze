@@ -6,11 +6,14 @@ func ReadSize() (string, int, int) {
 	rowS, columnS := "", "" // row string, column string
 
 	_, err := fmt.Scanf("%s %s", &rowS, &columnS)
-	if err != nil || !clearBuffer() {
+
+	rowIsDigit, row := atoi(rowS)
+	colIsDigit, column := atoi(columnS)
+
+	// If there error or invalid symbol
+	if err != nil || !clearBuffer() || !rowIsDigit || !colIsDigit {
 		return "Invalid input", -1, -1
 	}
-
-	row, column := atoi(rowS), atoi(columnS)
 
 	return validateRowColumn(row, column), row, column
 }
