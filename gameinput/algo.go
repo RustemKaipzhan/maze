@@ -28,3 +28,13 @@ func atoi(str string) (bool, int) {
 
 	return true, number * sign
 }
+
+func contains(icon rune) bool {
+	for _, char := range "X@v" {
+		if icon == char {
+			return true
+		}
+	}
+
+	return false
+}

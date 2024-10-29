@@ -1,6 +1,5 @@
 package gameflow
 
-// "fmt"
 import (
 	"fmt"
 	"maze/data"
@@ -16,7 +15,6 @@ func isValid(message string) bool {
 }
 func StartGame() {
 	message, row, column, allowCustIcons := "message", 0, 0, false
-	gameIcons := "X>@" // wall player award
 
 	for {
 		fmt.Print("Enter grid size (row column e.g., 4 7): ")
@@ -28,6 +26,8 @@ func StartGame() {
 
 		fmt.Println(message)
 	}
+
+	gameData := data.NewData(row, column)
 
 	for {
 		fmt.Printf("Grid size %d x %d", row, column)
@@ -42,16 +42,17 @@ func StartGame() {
 	}
 
 	if allowCustIcons {
-		gameIcons = getCustomIcons()
+		icons := gameData.GetIcons()
+		gameData.SetIcons(makeCustomIcons(icons))
 	}
 
-	gameData := data.NewData(row, column, gameIcons)
 	fmt.Println("gameData: ", gameData)
 }
 
-func getCustomIcons() string {
-
-	return ""
+func makeCustomIcons(customIcons string) string {
+	for {
+		gameinput.ReadWallIcon()
+	}
 }
 
 // func runGame() {
