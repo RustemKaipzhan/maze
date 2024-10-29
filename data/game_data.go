@@ -19,16 +19,16 @@ type cell struct {
 	icon rune
 }
 
-func NewData(row, column int) *Data {
+func NewData(row, column int, customIcons string) *Data {
 	cells := make([][]cell, row)
 	for idx := range cells {
 		cells[idx] = make([]cell, column)
 	}
 
 	return &Data{
-		wall:       'X',
-		player:     '>',
-		award:      '@',
+		wall:       rune(customIcons[0]),
+		player:     rune(customIcons[1]),
+		award:      rune(customIcons[2]),
 		playerPosX: 0,
 		playerPosY: 0,
 		row:        row,
