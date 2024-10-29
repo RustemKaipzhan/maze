@@ -14,12 +14,11 @@ func StartGame() {
 		fmt.Print("Enter grid size (row column e.g., 4 7): ")
 		message, row, column = gameinput.ReadSize()
 
-		if message != "success" {
-			fmt.Println(message)
-			continue
-		} else {
+		if message == "success" {
 			break
 		}
+
+		fmt.Println(message)
 	}
 
 	gameData := data.NewData(row, column)
