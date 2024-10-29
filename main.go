@@ -1,5 +1,7 @@
 package main
 
-func main() {
+import "maze/gameflow"
 
+func main() {
+	gameflow.StartGame()
 }

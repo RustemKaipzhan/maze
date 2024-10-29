@@ -13,17 +13,16 @@ type Data struct {
 	row, column int
 
 	cells [][]cell // 2D slice representing game field
-	size  int
 }
 
 type cell struct {
 	icon rune
 }
 
-func NewData(size int) *Data {
-	cells := make([][]cell, size)
+func NewData(row, column int) *Data {
+	cells := make([][]cell, row)
 	for idx := range cells {
-		cells[idx] = make([]cell, size)
+		cells[idx] = make([]cell, column)
 	}
 
 	return &Data{
@@ -32,9 +31,8 @@ func NewData(size int) *Data {
 		award:      '@',
 		playerPosX: 0,
 		playerPosY: 0,
-		row:        size * 3,
-		column:     size * 8,
+		row:        row,
+		column:     column,
 		cells:      cells,
-		size:       size,
 	}
 }
