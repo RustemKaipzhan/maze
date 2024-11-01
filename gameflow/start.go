@@ -3,62 +3,60 @@ package gameflow
 import (
 	"fmt"
 	"maze/data"
-	"maze/gameinput"
+	"sort"
+	"strconv"
 )
 
 func isValid(message string) bool {
-	if message == "success" {
-		return true
-	}
-
-	return false
+	return message == "\033[1;32m✔ Success\033[0m"
 }
 func StartGame() {
-	message, row, column, allowCustIcons := "message", 0, 0, false
+	message, row, column, allowCustomIcons := "message", 0, 0, false
 
-	for {
-		fmt.Print("Enter grid size (row column e.g., 4 7): ")
-		message, row, column = gameinput.ReadSize()
-
-		if isValid(message) {
-			break
-		}
-
-		fmt.Println(message)
-	}
+	promtGridSize(&message, &row, &column)
 
 	gameData := data.NewData(row, column)
 
-	for {
-		fmt.Printf("Grid size %d x %d", row, column)
-		fmt.Println("Would you like to make custom icons? (y/n)")
-		message, allowCustIcons = gameinput.ReadResponse()
+	promtResponse(&message, &row, &column, &allowCustomIcons)
 
-		if !isValid(message) {
-			continue
-		}
-
-		break
-	}
-
-	if allowCustIcons {
-		icons := gameData.GetIcons()
-		gameData.SetIcons(makeCustomIcons(icons))
+	if allowCustomIcons {
+		setIcons(gameData, &message)
 	}
 
 	fmt.Println("gameData: ", gameData)
 }
 
-func makeCustomIcons(customIcons string) string {
-	for {
-		gameinput.ReadWallIcon()
+func setIcons(gameData *data.Data, message *string) {
+	iconNames := map[int]string{0: "wall", 2: "player", 3: "award"}
+	icons := gameData.GetIcons()
+	icon := ""
+	keys := make([]int, 0)
+
+	for k := range icons {
+		keys = append(keys, k)
 	}
+	sort.Ints(keys)
+
+	for _, idx := range keys {
+		if idx == 1 {
+			continue
+		}
+		clearTerminal()
+
+		icons = gameData.GetIcons()
+		promtIcon(message, &icon, &icons,
+			currentIcons(&icons)+"\nEnter \033[1m"+iconNames[idx]+"\033[0m icon (type '/' to skip): ")
+		gameData.SetIcon(strconv.Itoa(idx), icon)
+	}
+
+	clearTerminal()
+	icons = gameData.GetIcons()
+	fmt.Println(currentIcons(&icons))
 }
 
-// func runGame() {
-
-// }
-
-// func endGame() {
-
-// }
+func currentIcons(icons *map[int]string) string {
+	return "Game icons:" +
+		"\n  1. wall - " + (*icons)[0] +
+		"\n  2. player - " + (*icons)[2] +
+		"\n  3. award - " + (*icons)[3]
+}

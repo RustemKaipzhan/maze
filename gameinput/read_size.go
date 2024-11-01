@@ -1,6 +1,9 @@
 package gameinput
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 func ReadSize() (string, int, int) {
 	rowS, columnS := "", "" // row string, column string
@@ -10,34 +13,40 @@ func ReadSize() (string, int, int) {
 	rowIsDigit, row := atoi(rowS)
 	colIsDigit, column := atoi(columnS)
 
-	// If there error or invalid symbol
+	// If there error or extra characters or not number
 	if err != nil || !clearBuffer() || !rowIsDigit || !colIsDigit {
-		return "Invalid input", -1, -1
+		return errorMessage, -1, -1
 	}
 
-	return validateRowColumn(row, column), row, column
+	return validateSize(row, column), row, column
 }
 
-func validateRowColumn(row, column int) string {
-	result := ""
+func validateSize(row, column int) string {
+	warnings := []string{}
 	if row <= 0 {
-		result += "\nRow mustn't be negative or 0"
+		warnings = append(warnings, messageSize1)
 	}
 
 	if column <= 0 {
-		result += "\nColumn mustn't be negative or 0"
+		warnings = append(warnings, messageSize2)
 	}
 
 	if row > 99 {
-		result += "\nRow mustn't be greater than 99"
+		warnings = append(warnings, messageSize3)
 	}
+
 	if column > 26 {
-		result += "\nColumn mustn't be greater than 26"
+		warnings = append(warnings, messageSize4)
 	}
 
-	if len(result) > 0 {
-		return "Invalid input:" + result
+	if len(warnings) > 0 {
+		result := ""
+		for idx, warning := range warnings {
+			result += "\n" + "  " + strconv.Itoa(idx+1) + ". " + warning
+		}
+
+		return warningMessage + result
 	}
 
-	return "success"
+	return successMessage
 }

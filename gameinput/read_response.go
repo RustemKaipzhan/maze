@@ -5,25 +5,23 @@ import "fmt"
 // Read player y/n
 func ReadResponse() (string, bool) {
 	response := ""
-
 	_, err := fmt.Scanf("%s", &response)
 
-	if err != nil {
-		return "Invalid input", false
+	if err != nil || !clearBuffer() {
+		return errorMessage, false
 	}
 
-	if len(response) < 1 || len(response) > 1 || !clearBuffer() {
-		return "Invalid input", false
-	}
-
-	return validateResponse(rune(response[0]))
-
+	return validateResponse(response)
 }
 
-func validateResponse(response rune) (string, bool) {
-	if response != 'n' && response != 'y' {
-		return "Invalid input", false
+func validateResponse(response string) (string, bool) {
+	if len(response) != 1 {
+		return warningMessage + messageResponse1, false
 	}
 
-	return "success", true
+	if response[0] != 'n' && response[0] != 'y' {
+		return warningMessage + messageResponse2, false
+	}
+
+	return successMessage, true
 }

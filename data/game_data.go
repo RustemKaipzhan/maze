@@ -1,8 +1,10 @@
 package data
 
-type Data struct {
-	icons []icon // key: name (wall player award), value: symbol
+import "strconv"
 
+// after adding a a a
+type Data struct {
+	cellTypes map[string]cell // map for cell types
 	// Player position
 	playerPosX int
 	playerPosY int
@@ -14,27 +16,26 @@ type Data struct {
 }
 
 type cell struct {
-	icon icon
-}
-type icon struct {
-	name  string
-	value rune
+	name string
+	icon string
 }
 
+var (
+	wall   = cell{"wall", "X"}
+	player = cell{"player", ">"}
+	award  = cell{"award", "@"}
+	free   = cell{"free", ""}
+)
+
 func NewData(row, column int) *Data {
+	// Initialize cells
 	cells := make([][]cell, row)
 	for idx := range cells {
 		cells[idx] = make([]cell, column)
 	}
 
-	icons := []icon{
-		icon{name: "wall", value: 'X'},
-		icon{name: "player", value: '>'},
-		icon{name: "award", value: '@'},
-	}
-
 	return &Data{
-		icons:      icons,
+		cellTypes:  map[string]cell{"0": wall, "1": free, "2": player, "3": award},
 		playerPosX: 0,
 		playerPosY: 0,
 		row:        row,
@@ -43,12 +44,29 @@ func NewData(row, column int) *Data {
 	}
 }
 
-func (data *Data) SetIcons(icons map[string]Icon) {
-	for name, icon := range icons {
-		data.icons[name] = Icon{iconValue}
+func (data *Data) SetIcon(idx string, icon string) {
+	if icon == "" {
+		return
 	}
 
+	cell := data.cellTypes[idx]
+	cell.icon = icon
+	data.cellTypes[idx] = cell
 }
-func (data *Data) GetIcons() map[string]Icon {
-	return data.icons
+
+func (data *Data) GetIcons() map[int]string {
+	newMap := make(map[int]string)
+	for idxS, cell := range data.cellTypes {
+		if idxS == "1" {
+			continue
+		}
+
+		idx, error := strconv.Atoi(idxS)
+		if error != nil {
+		}
+
+		newMap[idx] = cell.icon
+	}
+
+	return newMap
 }
