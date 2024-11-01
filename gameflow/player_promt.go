@@ -21,7 +21,7 @@ func clearTerminal() {
 	cmd.Run()              // Execute the command
 }
 
-func promtGridSize(message *string, row, column *int) {
+func promptGridSize(message *string, row, column *int) {
 	for {
 		fmt.Print("Enter grid size (row column e.g., 4 4): ")
 		*message, *row, *column = gameinput.ReadSize()
@@ -32,7 +32,7 @@ func promtGridSize(message *string, row, column *int) {
 	}
 }
 
-func promtResponse(message *string, row, column *int, allowCustomIcons *bool) {
+func promptResponse(message *string, row, column *int, allowCustomIcons *bool) {
 	for {
 		fmt.Printf("Grid size: %dx%d\n", *row, *column)
 		fmt.Println("Would you like to make custom icons (y/n) ?")

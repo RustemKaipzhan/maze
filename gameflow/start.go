@@ -10,14 +10,15 @@ import (
 func isValid(message string) bool {
 	return message == "\033[1;32m✔ Success\033[0m"
 }
+
 func StartGame() {
 	message, row, column, allowCustomIcons := "message", 0, 0, false
 
-	promtGridSize(&message, &row, &column)
+	promptGridSize(&message, &row, &column)
 
 	gameData := data.NewData(row, column)
 
-	promtResponse(&message, &row, &column, &allowCustomIcons)
+	promptResponse(&message, &row, &column, &allowCustomIcons)
 
 	if allowCustomIcons {
 		setIcons(gameData, &message)
@@ -35,6 +36,7 @@ func setIcons(gameData *data.Data, message *string) {
 	for k := range icons {
 		keys = append(keys, k)
 	}
+
 	sort.Ints(keys)
 
 	for _, idx := range keys {
