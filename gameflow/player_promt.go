@@ -46,11 +46,20 @@ func promptResponse(message *string, row, column *int, allowCustomIcons *bool) {
 	}
 }
 
-func promtIcon(message, icon *string, icons *map[int]string, instruction string) {
+func promptIcon(message, icon *string, icons map[int]string, instruction string) {
 	for {
 		fmt.Println(instruction)
 		*message, *icon = gameinput.ReadIcon(icons)
 		fmt.Println(*message)
+
+		if isValid(*message) {
+			break
+		}
+	}
+}
+
+func promptGrid(message *string) {
+	for {
 
 		if isValid(*message) {
 			break

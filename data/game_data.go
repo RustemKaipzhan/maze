@@ -44,6 +44,13 @@ func NewData(row, column int) *Data {
 	}
 }
 
+func (data *Data) GetCells() [][]cell {
+	return data.cells
+}
+
+func (data *Data) GetCellTypes() map[string]cell {
+	return data.cellTypes
+}
 func (data *Data) SetIcon(idx string, icon string) {
 	if icon == "" {
 		return
