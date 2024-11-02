@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	enter            = "\033[1;36m→ Enter: "
+	enter            = "\033[1;34m→ Enter: "
 	guideGridSize    = enter + "grid size (e.g., 3 3):\033[0m "
 	guideCustomIcons = "- Would you like to make custom icons ?\n"
 	guideResponse    = "\033[1;34m→ Select an option (y/n):\033[0m "
