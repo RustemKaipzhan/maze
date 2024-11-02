@@ -2,7 +2,7 @@ package data
 
 import "strconv"
 
-// after adding a a a
+// add only ascii to icons!
 type Data struct {
 	cellTypes map[string]cell // map for cell types
 	// Player position
