@@ -7,6 +7,10 @@ func getSortedIconIndexes() []int {
 	icons := gameData.GetIcons()
 	indexes := make([]int, 0, len(icons))
 	for idx := range icons {
+		if idx == 1 {
+			continue
+		}
+
 		indexes = append(indexes, idx)
 	}
 

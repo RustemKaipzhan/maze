@@ -9,16 +9,21 @@ import (
 var gameData *data.Data
 
 func isValid(message string) bool {
-	return message == "\033[1;32m✔ Success\033[0m"
+	return message == "\033[1;32m✔\033[0m"
 }
 
 func StartGame() {
+	clearTerminal()
 	message, row, column, allowCustomIcons := "message", 0, 0, false
 	promptGridSize(&message, &row, &column)
 
 	gameData = data.NewData(row, column)
 
-	promptResponse(&message, &row, &column, &allowCustomIcons)
+	addGridSizeDetail()
+
+	clearTerminal()
+
+	promptCustomIcons(&message, &allowCustomIcons)
 
 	if allowCustomIcons {
 		setIcons(&message)
@@ -30,7 +35,6 @@ func StartGame() {
 func setIcons(message *string) {
 	iconNames := map[int]string{0: "wall", 2: "player", 3: "award"}
 	icon := ""
-	icons := gameData.GetIcons()
 	indexes := getSortedIconIndexes()
 
 	for _, idx := range indexes {
@@ -39,13 +43,13 @@ func setIcons(message *string) {
 		}
 
 		clearTerminal()
-
-		icons = gameData.GetIcons()
-		promptIcon(message, &icon, icons,
-			currentIcons(icons)+"\n\033[1;34m→ Enter: "+iconNames[idx]+" icon \033[0m(type '/' to skip): ")
+		updateIconDetail()
+		promptIcon(message, &icon,
+			gameDetails+"\n"+enter+iconNames[idx]+" icon"+guideSkip)
 		gameData.SetIcon(strconv.Itoa(idx), icon)
 	}
 
 	clearTerminal()
-	fmt.Println("Final", currentIcons(gameData.GetIcons()))
+	updateIconDetail()
+	fmt.Println(gameDetails)
 }

@@ -8,6 +8,14 @@ import (
 	"runtime"
 )
 
+const (
+	enter            = "\033[1;36m→ Enter: "
+	guideGridSize    = enter + "grid size (e.g., 3 3):\033[0m "
+	guideCustomIcons = "- Would you like to make custom icons ?\n"
+	guideResponse    = "\033[1;34m→ Select an option (y/n):\033[0m "
+	guideSkip        = "\033[0m (type '/' to skip): "
+)
+
 func clearTerminal() {
 	var cmd *exec.Cmd
 
@@ -23,19 +31,20 @@ func clearTerminal() {
 
 func promptGridSize(message *string, row, column *int) {
 	for {
-		fmt.Print("Enter grid size (row column e.g., 4 4): ")
+		fmt.Print(guideGridSize)
 		*message, *row, *column = gameinput.ReadSize()
-		fmt.Println(*message)
 		if isValid(*message) {
 			break
 		}
+
+		fmt.Println(*message)
 	}
 }
 
-func promptResponse(message *string, row, column *int, allowCustomIcons *bool) {
+func promptCustomIcons(message *string, allowCustomIcons *bool) {
 	for {
-		fmt.Printf("Grid size: %dx%d\n", *row, *column)
-		fmt.Println("Would you like to make custom icons (y/n) ?")
+		fmt.Print(guideCustomIcons + guideResponse)
+
 		*message, *allowCustomIcons = gameinput.ReadResponse()
 
 		fmt.Println(*message)
@@ -46,10 +55,10 @@ func promptResponse(message *string, row, column *int, allowCustomIcons *bool) {
 	}
 }
 
-func promptIcon(message, icon *string, icons map[int]string, instruction string) {
+func promptIcon(message, icon *string, instruction string) {
 	for {
 		fmt.Println(instruction)
-		*message, *icon = gameinput.ReadIcon(icons)
+		*message, *icon = gameinput.ReadIcon(gameData.GetIcons())
 		fmt.Println(*message)
 
 		if isValid(*message) {

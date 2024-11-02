@@ -20,11 +20,12 @@ type cell struct {
 	icon string
 }
 
+//🤠
 var (
-	wall   = cell{"wall", "X"}
-	player = cell{"player", ">"}
-	award  = cell{"award", "@"}
-	free   = cell{"free", ""}
+	wall   = cell{"wall", "▓"}
+	player = cell{"player", "🏃"}
+	award  = cell{"award", "🏆"}
+	free   = cell{"free", " "}
 )
 
 func NewData(row, column int) *Data {
@@ -44,6 +45,9 @@ func NewData(row, column int) *Data {
 	}
 }
 
+func (data *Data) GetSize() (int, int) {
+	return data.row, data.column
+}
 func (data *Data) GetCells() [][]cell {
 	return data.cells
 }

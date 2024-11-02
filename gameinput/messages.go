@@ -1,7 +1,7 @@
 package gameinput
 
 const (
-	successMessage   = "\033[1;32m✔ Success\033[0m"
+	successMessage   = "\033[1;32m✔\033[0m"
 	errorMessage     = "\033[1;31mError: invalid input\033[0m❗"
 	warningMessage   = "\033[33m⚠ Warning:\033[0m "
 	messageResponse1 = "enter only one character (n/y)!"
