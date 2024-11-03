@@ -2,7 +2,11 @@ package data
 
 import "strconv"
 
-// add only ascii to icons!
+type DataInterface interface {
+	GetCells() [][]cell
+	GetCellTypes() map[string]cell
+}
+
 type Data struct {
 	cellTypes map[string]cell // map for cell types
 	// Player position

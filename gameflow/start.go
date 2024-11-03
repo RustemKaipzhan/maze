@@ -3,7 +3,6 @@ package gameflow
 import (
 	"fmt"
 	"maze/data"
-	"strconv"
 )
 
 var gameData *data.Data
@@ -26,30 +25,16 @@ func StartGame() {
 	promptCustomIcons(&message, &allowCustomIcons)
 
 	if allowCustomIcons {
-		setIcons(&message)
+		promptIcons(&message)
 	}
+
+	promptCells(&message)
 
 	fmt.Println("gameData: ", gameData)
 }
 
-func setIcons(message *string) {
-	iconNames := map[int]string{0: "wall", 2: "player", 3: "award"}
-	icon := ""
-	indexes := getSortedIconIndexes()
-
-	for _, idx := range indexes {
-		if idx == 1 {
-			continue
-		}
-
-		clearTerminal()
-		updateIconDetail()
-		promptIcon(message, &icon,
-			gameDetails+"\n"+enter+iconNames[idx]+" icon"+guideSkip)
-		gameData.SetIcon(strconv.Itoa(idx), icon)
-	}
-
+func updateIcons(guide string) {
 	clearTerminal()
 	updateIconDetail()
-	fmt.Println(gameDetails)
+	fmt.Println(gameDetails + guide)
 }
